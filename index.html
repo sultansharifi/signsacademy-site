@@ -11,6 +11,9 @@
 <meta property="og:url" content="https://signsacademy.com/">
 <meta name="theme-color" content="#0B3B37">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 44'%3E%3Crect x='8' y='8' width='28' height='28' rx='3' fill='%230E6B62'/%3E%3Crect x='8' y='8' width='28' height='28' rx='3' fill='%230E6B62' transform='rotate(45 22 22)'/%3E%3Ccircle cx='22' cy='22' r='7' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="alternate" hreflang="fa-AF" href="https://signsacademy.com/">
+<link rel="alternate" hreflang="ps" href="https://signsacademy.com/ps.html">
+<link rel="alternate" hreflang="en" href="https://signsacademy.com/en.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -44,6 +47,10 @@ header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdro
 .menu{display:flex;flex-wrap:wrap;gap:8px 24px;font-size:16px;font-weight:500}
 .menu a{color:var(--ink);text-decoration:none}.menu a:hover{color:var(--accent)}
 .nav-cta{padding:10px 18px;font-size:16px;border-radius:12px}
+.nav-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.langs{display:flex;border:1px solid var(--line2);border-radius:999px;padding:4px}
+.langs a{padding:6px 12px;border-radius:999px;font-size:14px;font-weight:700;text-decoration:none;color:var(--ink);min-height:36px;display:flex;align-items:center}
+.langs a[aria-current]{background:var(--ink);color:#fff}
 /* hero */
 .hero{background:var(--soft)}
 .hero-inner{display:flex;flex-wrap:wrap;gap:48px;align-items:center;padding:80px 24px}
@@ -72,7 +79,7 @@ h1{font-size:52px;line-height:1.35;font-weight:800}
 .ucard h3{font-size:30px;font-weight:800}
 .ucard p{font-size:18px;color:var(--pale)}
 .ucard .sub{font-size:16px;font-weight:700;color:var(--gold)}
-.ucard ul{margin:0;padding:0 20px 0 0;font-size:18px;display:flex;flex-direction:column;gap:6px}
+.ucard ul{margin:0;padding:0;padding-inline-start:20px;font-size:18px;display:flex;flex-direction:column;gap:6px}
 /* programs */
 .grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
 .pcard{border:1px solid var(--line);border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:12px;background:#fff}
@@ -148,7 +155,12 @@ footer a{color:var(--pale)}footer a:hover{color:#fff}
     <a href="#fees">فیس</a>
     <a href="#faq">سوالات</a>
   </nav>
-  <a class="btn btn-primary nav-cta" href="#signup">صنف آزمایشی رایگان</a>
+  <div class="nav-right">
+    <nav class="langs" aria-label="زبان">
+      <a href="/" lang="fa" aria-current="page">دری</a><a href="/ps.html" lang="ps">پښتو</a><a href="/en.html" lang="en">English</a>
+    </nav>
+    <a class="btn btn-primary nav-cta" href="#signup">صنف آزمایشی رایگان</a>
+  </div>
 </div>
 </header>
 
