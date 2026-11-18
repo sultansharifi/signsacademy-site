@@ -306,23 +306,27 @@ footer a{color:var(--pale)}footer a:hover{color:#fff}
 <div class="wrap signup">
   <div class="signup-text">
     <h2>اولین صنف طفل تان رایگان است</h2>
-    <p class="lead">فورم را پر کنید و دکمه را بزنید. معلومات شما در واتساپ برای ما فرستاده می‌شود و ما وقت صنف آزمایشی را با شما تعیین می‌کنیم.</p>
+    <p class="lead">فورم را پر کنید و دکمه را بزنید. ما در کمتر از یک روز با شما تماس می‌گیریم و وقت صنف آزمایشی را تعیین می‌کنیم.</p>
     <a class="btn btn-gold js-wa" style="align-self:flex-start" href="#" data-text="سلام، می‌خواهم برای صنف آزمایشی رایگان آکادمی آیات ثبت‌نام کنم.">یا مستقیم در واتساپ پیام بدهید</a>
   </div>
-  <form id="signup-form" novalidate>
+  <form id="signup-form" novalidate style="position:relative">
     <label>نام والد<input type="text" name="parent" autocomplete="name" required></label>
     <div class="row2">
       <label>نام طفل<input type="text" name="child" required></label>
       <label>سن طفل<input type="text" name="age" inputmode="numeric" required></label>
     </div>
     <label>کشور و شهر<input type="text" name="country" required></label>
+    <label>شماره تلفن یا واتساپ<input type="tel" name="phone" autocomplete="tel" dir="ltr" required></label>
+    <label>ایمیل (اختیاری)<input type="email" name="email" autocomplete="email" dir="ltr"></label>
+    <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
     <div class="row2">
       <label>زبان صنف<select name="lang"><option>دری</option><option>پښتو</option></select></label>
       <label>نوع صنف<select name="type"><option>یک‌به‌یک</option><option>گروهی</option><option>هنوز نمی‌دانم</option></select></label>
     </div>
+    <p class="ok" id="form-ok" role="status" style="display:none;color:#0E6B62;font-weight:700;font-size:16px"></p>
     <p class="err" id="form-err" role="alert">لطفاً همه خانه‌ها را پر کنید.</p>
-    <button class="btn btn-primary" type="submit" style="min-height:52px">رزرو صنف آزمایشی رایگان در واتساپ</button>
-    <p class="form-note">با زدن دکمه، واتساپ باز می‌شود و پیام آماده را فقط «ارسال» کنید.</p>
+    <button class="btn btn-primary" type="submit" style="min-height:52px">رزرو صنف آزمایشی رایگان</button>
+    <p class="form-note">معلومات شما فقط برای تماس با شما استفاده می‌شود.</p>
   </form>
 </div>
 </section>
@@ -356,20 +360,31 @@ footer a{color:var(--pale)}footer a:hover{color:#fff}
   });
   var form = document.getElementById('signup-form');
   var err = document.getElementById('form-err');
+  var ENDPOINT = 'https://script.google.com/macros/s/AKfycbyXWM_-embpgDqcRsUNNDyIqPW71f_Z3s_ulMv-Wzqt5vGWV6IrtBFz-mby98pUc4RppQ/exec';
+  var okEl = document.getElementById('form-ok');
+  var btn = form.querySelector('button[type=submit]');
+  var btnText = btn.textContent;
   form.addEventListener('submit', function(e){
     e.preventDefault();
     var f = form.elements, ok = true;
-    ['parent','child','age','country'].forEach(function(n){ if(!f[n].value.trim()) ok = false; });
+    ['parent','child','age','country','phone'].forEach(function(n){ if(!f[n].value.trim()) ok = false; });
     if(!ok){ err.style.display = 'block'; return; }
     err.style.display = 'none';
-    var msg = 'سلام آکادمی آیات، می‌خواهم برای صنف آزمایشی رایگان ثبت‌نام کنم.\n' +
-      'نام والد: ' + f.parent.value.trim() + '\n' +
-      'نام طفل: ' + f.child.value.trim() + '\n' +
-      'سن طفل: ' + f.age.value.trim() + '\n' +
-      'کشور و شهر: ' + f.country.value.trim() + '\n' +
-      'زبان صنف: ' + f.lang.value + '\n' +
-      'نوع صنف: ' + f.type.value;
-    window.open(waLink(msg), '_blank', 'noopener');
+    var data = new URLSearchParams();
+    ['parent','child','age','country','phone','email','lang','type','website'].forEach(function(n){ data.append(n, f[n].value.trim()); });
+    data.append('page', 'fa');
+    btn.disabled = true; btn.textContent = 'در حال ارسال…';
+    fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', body: data })
+      .then(function(){
+        form.reset();
+        okEl.textContent = 'تشکر! ثبت‌نام شما رسید. به زودی با شما در تماس می‌شویم.';
+        okEl.style.display = 'block';
+      })
+      .catch(function(){
+        err.textContent = 'ارسال نشد. لطفاً دوباره کوشش کنید یا در واتساپ پیام بدهید.';
+        err.style.display = 'block';
+      })
+      .then(function(){ btn.disabled = false; btn.textContent = btnText; });
   });
 })();
 </script>

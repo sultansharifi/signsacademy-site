@@ -306,23 +306,27 @@ footer a{color:var(--pale)}footer a:hover{color:#fff}
 <div class="wrap signup">
   <div class="signup-text">
     <h2>ستاسو د ماشوم لومړی ټولګی وړیا دی</h2>
-    <p class="lead">فورمه ډکه کړئ او تڼۍ کېکاږئ. ستاسو معلومات موږ ته په واټساپ کې لېږل کېږي او موږ له تاسو سره د ازمایښتي ټولګي وخت ټاکو.</p>
+    <p class="lead">فورمه ډکه کړئ او تڼۍ کېکاږئ. موږ به له یوې ورځې په لږ وخت کې له تاسو سره اړیکه ونیسو او د ازمایښتي ټولګي وخت به وټاکو.</p>
     <a class="btn btn-gold js-wa" style="align-self:flex-start" href="#" data-text="سلام، غواړم د آیاتو اکاډمۍ د وړیا ازمایښتي ټولګي لپاره نوم ولیکم.">یا مستقیم په واټساپ کې پیغام راولېږئ</a>
   </div>
-  <form id="signup-form" novalidate>
+  <form id="signup-form" novalidate style="position:relative">
     <label>د والد یا والدې نوم<input type="text" name="parent" autocomplete="name" required></label>
     <div class="row2">
       <label>د ماشوم نوم<input type="text" name="child" required></label>
       <label>د ماشوم عمر<input type="text" name="age" inputmode="numeric" required></label>
     </div>
     <label>هېواد او ښار<input type="text" name="country" required></label>
+    <label>د تلیفون یا واټساپ شمېره<input type="tel" name="phone" autocomplete="tel" dir="ltr" required></label>
+    <label>برېښنالیک (اختیاري)<input type="email" name="email" autocomplete="email" dir="ltr"></label>
+    <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
     <div class="row2">
       <label>د ټولګي ژبه<select name="lang"><option>پښتو</option><option>دري</option></select></label>
       <label>د ټولګي ډول<select name="type"><option>یو پر یو</option><option>ډله ییز</option><option>لا نه پوهېږم</option></select></label>
     </div>
+    <p class="ok" id="form-ok" role="status" style="display:none;color:#0E6B62;font-weight:700;font-size:16px"></p>
     <p class="err" id="form-err" role="alert">مهرباني وکړئ ټولې خانې ډکې کړئ.</p>
-    <button class="btn btn-primary" type="submit" style="min-height:52px">په واټساپ کې د وړیا ازمایښتي ټولګي ثبت</button>
-    <p class="form-note">د تڼۍ په کېکاږلو سره واټساپ خلاصېږي، یوازې چمتو پیغام «ولېږئ».</p>
+    <button class="btn btn-primary" type="submit" style="min-height:52px">وړیا ازمایښتي ټولګی ثبت کړئ</button>
+    <p class="form-note">ستاسو معلومات یوازې له تاسو سره د اړیکې لپاره کارول کېږي.</p>
   </form>
 </div>
 </section>
@@ -356,20 +360,31 @@ footer a{color:var(--pale)}footer a:hover{color:#fff}
   });
   var form = document.getElementById('signup-form');
   var err = document.getElementById('form-err');
+  var ENDPOINT = 'https://script.google.com/macros/s/AKfycbyXWM_-embpgDqcRsUNNDyIqPW71f_Z3s_ulMv-Wzqt5vGWV6IrtBFz-mby98pUc4RppQ/exec';
+  var okEl = document.getElementById('form-ok');
+  var btn = form.querySelector('button[type=submit]');
+  var btnText = btn.textContent;
   form.addEventListener('submit', function(e){
     e.preventDefault();
     var f = form.elements, ok = true;
-    ['parent','child','age','country'].forEach(function(n){ if(!f[n].value.trim()) ok = false; });
+    ['parent','child','age','country','phone'].forEach(function(n){ if(!f[n].value.trim()) ok = false; });
     if(!ok){ err.style.display = 'block'; return; }
     err.style.display = 'none';
-    var msg = 'سلام د آیاتو اکاډمي، غواړم د وړیا ازمایښتي ټولګي لپاره نوم ولیکم.\n' +
-      'د والد یا والدې نوم: ' + f.parent.value.trim() + '\n' +
-      'د ماشوم نوم: ' + f.child.value.trim() + '\n' +
-      'د ماشوم عمر: ' + f.age.value.trim() + '\n' +
-      'هېواد او ښار: ' + f.country.value.trim() + '\n' +
-      'د ټولګي ژبه: ' + f.lang.value + '\n' +
-      'د ټولګي ډول: ' + f.type.value;
-    window.open(waLink(msg), '_blank', 'noopener');
+    var data = new URLSearchParams();
+    ['parent','child','age','country','phone','email','lang','type','website'].forEach(function(n){ data.append(n, f[n].value.trim()); });
+    data.append('page', 'ps');
+    btn.disabled = true; btn.textContent = 'لېږل کېږي…';
+    fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', body: data })
+      .then(function(){
+        form.reset();
+        okEl.textContent = 'مننه! ستاسو نوم لیکنه ورسېده. ډېر ژر به له تاسو سره اړیکه ونیسو.';
+        okEl.style.display = 'block';
+      })
+      .catch(function(){
+        err.textContent = 'ونه لېږل شو. مهرباني وکړئ بیا هڅه وکړئ یا په واټساپ کې پیغام راولېږئ.';
+        err.style.display = 'block';
+      })
+      .then(function(){ btn.disabled = false; btn.textContent = btnText; });
   });
 })();
 </script>

@@ -306,23 +306,27 @@ footer a{color:var(--pale)}footer a:hover{color:#fff}
 <div class="wrap signup">
   <div class="signup-text">
     <h2>Your child’s first class is free</h2>
-    <p class="lead">Fill in the form and tap the button. Your details are sent to us on WhatsApp, and we’ll arrange a time for the trial class with you.</p>
+    <p class="lead">Fill in the form and tap the button. We’ll contact you within a day to arrange the trial class.</p>
     <a class="btn btn-gold js-wa" style="align-self:flex-start" href="#" data-text="Hello, I would like to sign up for a free trial class at Signs Academy.">Or message us directly on WhatsApp</a>
   </div>
-  <form id="signup-form" novalidate>
+  <form id="signup-form" novalidate style="position:relative">
     <label>Parent’s name<input type="text" name="parent" autocomplete="name" required></label>
     <div class="row2">
       <label>Child’s name<input type="text" name="child" required></label>
       <label>Child’s age<input type="text" name="age" inputmode="numeric" required></label>
     </div>
     <label>Country &amp; city<input type="text" name="country" required></label>
+    <label>Phone / WhatsApp number<input type="tel" name="phone" autocomplete="tel" dir="ltr" required></label>
+    <label>Email (optional)<input type="email" name="email" autocomplete="email" dir="ltr"></label>
+    <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
     <div class="row2">
       <label>Class language<select name="lang"><option>Dari</option><option>Pashto</option></select></label>
       <label>Class type<select name="type"><option>One-on-one</option><option>Group</option><option>Not sure yet</option></select></label>
     </div>
+    <p class="ok" id="form-ok" role="status" style="display:none;color:#0E6B62;font-weight:700;font-size:16px"></p>
     <p class="err" id="form-err" role="alert">Please fill in all the fields.</p>
-    <button class="btn btn-primary" type="submit" style="min-height:52px">Book the free trial on WhatsApp</button>
-    <p class="form-note">Tapping the button opens WhatsApp with a ready message — just press Send.</p>
+    <button class="btn btn-primary" type="submit" style="min-height:52px">Book the free trial class</button>
+    <p class="form-note">We only use your details to contact you about classes.</p>
   </form>
 </div>
 </section>
@@ -356,20 +360,31 @@ footer a{color:var(--pale)}footer a:hover{color:#fff}
   });
   var form = document.getElementById('signup-form');
   var err = document.getElementById('form-err');
+  var ENDPOINT = 'https://script.google.com/macros/s/AKfycbyXWM_-embpgDqcRsUNNDyIqPW71f_Z3s_ulMv-Wzqt5vGWV6IrtBFz-mby98pUc4RppQ/exec';
+  var okEl = document.getElementById('form-ok');
+  var btn = form.querySelector('button[type=submit]');
+  var btnText = btn.textContent;
   form.addEventListener('submit', function(e){
     e.preventDefault();
     var f = form.elements, ok = true;
-    ['parent','child','age','country'].forEach(function(n){ if(!f[n].value.trim()) ok = false; });
+    ['parent','child','age','country','phone'].forEach(function(n){ if(!f[n].value.trim()) ok = false; });
     if(!ok){ err.style.display = 'block'; return; }
     err.style.display = 'none';
-    var msg = 'Hello Signs Academy, I would like to book a free trial class.\n' +
-      'Parent: ' + f.parent.value.trim() + '\n' +
-      'Child: ' + f.child.value.trim() + '\n' +
-      'Age: ' + f.age.value.trim() + '\n' +
-      'Country & city: ' + f.country.value.trim() + '\n' +
-      'Class language: ' + f.lang.value + '\n' +
-      'Class type: ' + f.type.value;
-    window.open(waLink(msg), '_blank', 'noopener');
+    var data = new URLSearchParams();
+    ['parent','child','age','country','phone','email','lang','type','website'].forEach(function(n){ data.append(n, f[n].value.trim()); });
+    data.append('page', 'en');
+    btn.disabled = true; btn.textContent = 'Sending…';
+    fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', body: data })
+      .then(function(){
+        form.reset();
+        okEl.textContent = 'Thank you! Your registration was received. We will contact you within a day.';
+        okEl.style.display = 'block';
+      })
+      .catch(function(){
+        err.textContent = 'Could not send. Please try again or message us on WhatsApp.';
+        err.style.display = 'block';
+      })
+      .then(function(){ btn.disabled = false; btn.textContent = btnText; });
   });
 })();
 </script>
