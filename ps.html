@@ -127,8 +127,6 @@ input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px}
 footer{background:var(--darker);color:var(--pale)}
 .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px;padding-top:40px;padding-bottom:40px;font-size:15px}
 footer a{color:var(--pale)}footer a:hover{color:#fff}
-/* floating whatsapp */
-.wa-float{position:fixed;bottom:20px;left:20px;z-index:30;width:58px;height:58px;border-radius:999px;background:#1F9D55;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.25)}
 @media (max-width:760px){
   h1{font-size:36px}
   h2{font-size:30px}
@@ -283,10 +281,10 @@ footer a{color:var(--pale)}footer a:hover{color:#fff}
     <div class="fees-text">
       <span class="eyebrow">د ټولګیو فیس</span>
       <h3>هغه پلان چې ستاسو کورنۍ ته مناسب دی</h3>
-      <p class="lead" style="font-size:17px">ډله ییز ټولګی، یو پر یو ټولګی، او د دوو یا ډېرو ماشومانو لپاره کورنی تخفیف. د فیس د معلوماتو لپاره، په واټساپ کې موږ سره اړیکه ونیسئ.</p>
+      <p class="lead" style="font-size:17px">ډله ییز ټولګی، یو پر یو ټولګی، او د دوو یا ډېرو ماشومانو لپاره کورنی تخفیف. د فیس د معلوماتو لپاره، موږ ته بریښنالیک راولېږئ.</p>
       <div class="fees-list"><span class="tag">ډله ییز ټولګی</span><span class="tag">یو پر یو ټولګی</span><span class="tag gold">کورنی تخفیف</span></div>
     </div>
-    <a class="btn btn-primary js-wa" href="#" data-text="سلام، د آیاتو اکاډمۍ د ټولګیو د فیس معلومات غواړم.">په واټساپ کې د فیس پوښتنه</a>
+    <a class="btn btn-primary js-mail" href="#" data-subject="د ټولګیو د فیس معلومات">د بریښنالیک له لارې د فیس پوښتنه</a>
   </div>
 </div>
 </section>
@@ -307,7 +305,7 @@ footer a{color:var(--pale)}footer a:hover{color:#fff}
   <div class="signup-text">
     <h2>ستاسو د ماشوم لومړی ټولګی وړیا دی</h2>
     <p class="lead">فورمه ډکه کړئ او تڼۍ کېکاږئ. موږ به له یوې ورځې په لږ وخت کې له تاسو سره اړیکه ونیسو او د ازمایښتي ټولګي وخت به وټاکو.</p>
-    <a class="btn btn-gold js-wa" style="align-self:flex-start" href="#" data-text="سلام، غواړم د آیاتو اکاډمۍ د وړیا ازمایښتي ټولګي لپاره نوم ولیکم.">یا مستقیم په واټساپ کې پیغام راولېږئ</a>
+    <a class="btn btn-gold js-mail" style="align-self:flex-start" href="#" data-subject="د وړیا ازمایښتي ټولګي لپاره نوم لیکنه">یا مستقیم موږ ته بریښنالیک راولېږئ</a>
   </div>
   <form id="signup-form" novalidate style="position:relative">
     <label>د والد یا والدې نوم<input type="text" name="parent" autocomplete="name" required></label>
@@ -316,7 +314,7 @@ footer a{color:var(--pale)}footer a:hover{color:#fff}
       <label>د ماشوم عمر<input type="text" name="age" inputmode="numeric" required></label>
     </div>
     <label>هېواد او ښار<input type="text" name="country" required></label>
-    <label>د تلیفون یا واټساپ شمېره<input type="tel" name="phone" autocomplete="tel" dir="ltr" required></label>
+    <label>د تلیفون شمېره<input type="tel" name="phone" autocomplete="tel" dir="ltr" required></label>
     <label>برېښنالیک (اختیاري)<input type="email" name="email" autocomplete="email" dir="ltr"></label>
     <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
     <div class="row2">
@@ -340,23 +338,18 @@ footer a{color:var(--pale)}footer a:hover{color:#fff}
     <span>قرآن، فقه، خدای پېژندنه او ځان پېژندنه د بهر مېشتو ماشومانو لپاره</span>
   </div>
   <div style="display:flex;flex-direction:column;gap:6px">
-    <a class="js-wa" href="#" data-text="سلام د آیاتو اکاډمي">واټساپ: <span dir="ltr">+1 650 582 6232</span></a>
+    <a class="js-mail" href="#" data-subject="د آیاتو اکاډمي">بریښنالیک: <span dir="ltr">info@signsacademy.com</span></a>
     <span>© <span id="yr">۲۰۲۶</span> د آیاتو اکاډمي</span>
   </div>
 </div>
 </footer>
 
-<a class="wa-float js-wa" href="#" data-text="سلام د آیاتو اکاډمي" aria-label="په واټساپ کې پیغام">
-  <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4 5.1 5.1 0 0 0 3.2.7 2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>
-</a>
 
 <script>
 (function(){
-  var WA = '16505826232';
-  function waLink(text){ return 'https://wa.me/' + WA + '?text=' + encodeURIComponent(text); }
-  document.querySelectorAll('.js-wa').forEach(function(a){
-    a.href = waLink(a.getAttribute('data-text') || 'سلام');
-    a.target = '_blank'; a.rel = 'noopener';
+  var EMAIL = 'info@signsacademy.com';
+  document.querySelectorAll('.js-mail').forEach(function(a){
+    a.href = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent(a.getAttribute('data-subject') || '');
   });
   var form = document.getElementById('signup-form');
   var err = document.getElementById('form-err');
@@ -381,7 +374,7 @@ footer a{color:var(--pale)}footer a:hover{color:#fff}
         okEl.style.display = 'block';
       })
       .catch(function(){
-        err.textContent = 'ونه لېږل شو. مهرباني وکړئ بیا هڅه وکړئ یا په واټساپ کې پیغام راولېږئ.';
+        err.textContent = 'ونه لېږل شو. مهرباني وکړئ بیا هڅه وکړئ یا info@signsacademy.com ته بریښنالیک راولېږئ.';
         err.style.display = 'block';
       })
       .then(function(){ btn.disabled = false; btn.textContent = btnText; });
