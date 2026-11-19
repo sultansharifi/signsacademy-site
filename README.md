@@ -1,4 +1,4 @@
-# Signs Academy — آکادمی آیات
+# Signs Academy — اکادمی آیات
 
 Online Islamic school website for children abroad (Dari / Pashto).
 
